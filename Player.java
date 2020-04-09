@@ -8,7 +8,7 @@
 public class Player {
     private String name;
     private int score;
-    private String guess;
+    private int guess;
     private int highestScore;
     private int numberOfGamesPlayed;
     private int numberOfGamesWon;
@@ -19,7 +19,7 @@ public class Player {
     public Player(){
         name = "";
         score = 40;
-        guess = "";
+        guess = 0;
         highestScore = 0;
         numberOfGamesPlayed = 0;
         numberOfGamesWon = 0;
@@ -28,7 +28,7 @@ public class Player {
     /**
      *
      */
-    public Player(String newName, int newScore, String newGuess, int newHighestScore, int newNumberOfGamesPlayed, int newNumberOfGamesWon){
+    public Player(String newName, int newScore, int newGuess, int newHighestScore, int newNumberOfGamesPlayed, int newNumberOfGamesWon){
         name = newName;
         score = newScore;
         guess = newGuess;
@@ -48,7 +48,7 @@ public class Player {
         return score;
     }
 
-    public String getGuess() {
+    public int getGuess() {
         return guess;
     }
 
@@ -75,7 +75,7 @@ public class Player {
         this.score = score;
     }
 
-    public void setGuess(String guess) {
+    public void setGuess(int guess) {
         this.guess = guess;
     }
 
