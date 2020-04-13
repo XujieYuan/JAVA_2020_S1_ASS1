@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 /**
  *
+ *
  */
 
 public class Game {
@@ -41,25 +42,51 @@ public class Game {
     public void start() {
         displayWelcomeMessage();
         registerPlayer();
-        playOnce();
+        playGame();
         System.exit(0);
     }
 
-    public void playOnce()
-    {
-        int gameTime = 0;
-        Card cd = new Card();
-        Card card = cd.creatCard();
-        compareSuit(card);
-        compareNumber(card);
-        playAgain();
+    public void playGame() {
+        int time = 1;
+        int winTime = 0;
+        int highestScore = 0;
+        while (true) {
+            Card cd = new Card();
+            Card card = cd.creatCard();
+            compareSuit(card);
+            if (compareNumber(card))
+            {
+                if (cardGamePlayer.getScore() > highestScore)
+                {
+                    highestScore = cardGamePlayer.getScore();
+                }
+                winTime++;
+            }
+            System.out.println("Do you want to play another game?");
+            System.out.println("Press 'y' for 'Yes'");
+            System.out.println("Press 'n' for 'No'");
+            Scanner console = new Scanner(System.in);
+            String input = console.nextLine();
+            if (playAgain(input)) {
+                cardGamePlayer.setScore(40);
+                time++;
+                continue;
+            }
+            if (!playAgain(input)) {
+                endGame();
+                break;
+            }
+        }
+        System.out.println("The number of games you have played is " + time);
+        System.out.println("The number of games you have won is " + winTime);
+        System.out.println("The highest score for the games you played is " + highestScore);
     }
 
     public void displayWelcomeMessage() {
         System.out.println("Welcome to Guess a Card Game!");
     }
 
-    public Player registerPlayer() {
+    public void registerPlayer() {
         System.out.println("Please enter your name!");
         Scanner console = new Scanner(System.in);
         String name = console.nextLine();
@@ -70,7 +97,6 @@ public class Game {
             }
         }
         cardGamePlayer.setName(name);
-        return cardGamePlayer;
     }
 
     public void compareSuit(Card card) {
@@ -119,14 +145,17 @@ public class Game {
         System.out.println("Your guess is " + cardGamePlayer.getGuess() + ".");
     }
 
-    public void compareNumber(Card card) {
+    public boolean compareNumber(Card card) {
         int wrongTime = 4;
+        boolean win = true;
         for (int i = 0; i < 4; i++) {
             enterCardNumber();
             if (cardGamePlayer.getGuess() == card.getNumber()) {
-                System.out.println("Congratulations! This is a correct guess! !WIN!");
-                if (checkScore())
+
+                if (checkScore()) {
+                    System.out.println("Congratulations! This is a correct guess! !WIN!");
                     break;
+                }
             } else if ((cardGamePlayer.getGuess() != card.getNumber()) && (wrongTime != 1)) {
                 System.out.println("Incorrect guess!");
                 System.out.println("You still have " + (wrongTime - 1) + " chances.");
@@ -139,12 +168,10 @@ public class Game {
                     cardGamePlayer.setScore(cardGamePlayer.getScore() - 12);
                 }
                 if (checkScore()) {
-                    if (card.getNumber() > cardGamePlayer.getGuess())
-                    {
+                    if (card.getNumber() > cardGamePlayer.getGuess()) {
                         System.out.println("The correct card number is higher than your last guess.");
                     }
-                    if (card.getNumber() < cardGamePlayer.getGuess())
-                    {
+                    if (card.getNumber() < cardGamePlayer.getGuess()) {
                         System.out.println("The correct card number is lower than your last guess.");
                     }
                     continue;
@@ -152,17 +179,20 @@ public class Game {
                 if (!(checkScore())) {
                     System.out.println("But your score is not greater than 0 now! !LOSE!");
                     cardGamePlayer.setScore(0);
+                    win = false;
                     break;
                 }
             } else if ((cardGamePlayer.getGuess() != card.getNumber()) && (wrongTime == 1)) {
                 cardGamePlayer.setScore(cardGamePlayer.getScore() - 20);
                 System.out.println("!LOSE! You did 4 incorrect guesses. The correct number is " + card.getNumber() + ".");//Can write a switch method in Class Card to transfer the number to character
                 cardGamePlayer.setScore(0);
+                win = false;
                 break;
             }
         }
         System.out.println("Your current score is " + cardGamePlayer.getScore() + "!");
         System.out.println();
+        return win;
     }
 
     public void enterCardNumber()//Can add IOException in this method
@@ -184,30 +214,22 @@ public class Game {
             return false;
     }
 
-    public boolean playAgain() {
+    public boolean playAgain(String input) {
         boolean whetherPlayAgain = true;
-        System.out.println("Do you want to play another game?");
-        System.out.println("Press 'y' for 'Yes'");
-        System.out.println("Press 'n' for 'No'");
-        Scanner console = new Scanner(System.in);
-        String choice = console.nextLine();
-        switch (choice) {
+        switch (input) {
             case "y":
-                playOnce();
                 break;
             case "n":
-                endGame();
                 whetherPlayAgain = false;
                 break;
             default:
-                System.out.println("Invalid option! Please enter again!");
+                System.out.println("Invalid option! Please enter again!");//error
                 break;
         }
         return whetherPlayAgain;
     }
 
-    public void endGame()
-    {
-
+    public void endGame() {
+        System.out.println("Stop program...");
     }
 }
