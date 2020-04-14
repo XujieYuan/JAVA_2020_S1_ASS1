@@ -223,7 +223,12 @@ public class Game {
                 whetherPlayAgain = false;
                 break;
             default:
-                System.out.println("Invalid option! Please enter again!");//error
+                System.out.println("Invalid option! Please enter again!");
+                System.out.println("Press 'y' for 'Yes'");
+                System.out.println("Press 'n' for 'No'");
+                Scanner console = new Scanner(System.in);
+                String inputAgain = console.nextLine();
+                playAgain(inputAgain);
                 break;
         }
         return whetherPlayAgain;
