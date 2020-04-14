@@ -3,21 +3,21 @@
  */
 
 public class Card {
-    private String suit;
+    private int suit;
     private int number;
 
     /**
      *
      */
     public Card(){
-        suit = "";
+        suit = 0;
         number = 0;
     }
 
     /**
      *
      */
-    public Card(String newSuit, int newNumber){
+    public Card(int newSuit, int newNumber){
         suit = newSuit;
         number = newNumber;
     }
@@ -25,7 +25,7 @@ public class Card {
     /**
      *
      */
-    public String getSuit() {
+    public int getSuit() {
         return suit;
     }
 
@@ -36,11 +36,23 @@ public class Card {
     /**
      *
      */
-    public void setSuit(String suit) {
+    public void setSuit(int suit) {
         this.suit = suit;
     }
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public Card creatCard()
+    {
+        Card card = new Card();
+        RandomNumber rn = new RandomNumber();
+        int randomSuit = rn.getRandomNumber(4, 1);
+        card.setSuit(randomSuit);
+        int randomNumber = rn.getRandomNumber(13, 1);
+        card.setNumber(randomNumber);
+        System.out.println("suit is " + randomSuit + " number is " + randomNumber);
+        return card;
     }
 }
